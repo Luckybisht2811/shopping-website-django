@@ -1,0 +1,116 @@
+/* ===============================
+   OWL CAROUSEL (NO CHANGE)
+================================ */
+.owl-carousel .item{
+ font-size: 24px;
+ text-align: center;
+ margin-top: 20px;
+}
+
+.owl-nav button.owl-prev,
+.owl-nav button.owl-next {
+    position: absolute;
+    top: 40%;
+    font-size: 30px;
+}
+
+.owl-nav button.owl-prev {
+    left: -25px;
+}
+
+.owl-nav button.owl-next {
+    right: -25px;
+}
+
+.carousel-inner {
+    min-height: 300px;
+}
+
+.owl-next{ float:right; }
+.owl-prev{ float:left; }
+
+.owl-prev span,
+.owl-next span{
+ font-size: 24px;
+ font-weight: bold;
+}
+
+/* ===============================
+   PRODUCT DETAIL IMAGE
+================================ */
+.product-detail-img {
+    width: 450px !important;
+    height: 450px !important;
+    object-fit: contain;
+    background-color: #fff;
+    padding: 10px;
+}
+
+.col-sm-6 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ===============================
+   LOGIN PAGE STYLES (UPDATED)
+================================ */
+
+/* Page background */
+body {
+    background-color: #f4f9ff;
+}
+
+/* Login card */
+.login-card {
+    background-color: #ffffff;
+    border-radius: 16px;
+    max-width: 500px;
+    margin: auto;
+}
+
+/* Inputs */
+.login-card .form-control {
+    border-radius: 10px;
+    padding: 10px 40px 10px 12px;
+    font-size: 15px;
+}
+
+/* Focus effect */
+.login-card .form-control:focus {
+    box-shadow: none;
+    border-color: #0d6efd;
+}
+
+/* Login button */
+.login-card .btn-primary {
+    border-radius: 10px;
+    padding: 10px;
+    font-weight: 600;
+}
+
+.login-card .btn-primary:hover {
+    background-color: #0b5ed7;
+}
+
+/* Heading spacing */
+.login-card h3 {
+    letter-spacing: 0.5px;
+}
+
+/* ===============================
+   SHOW / HIDE PASSWORD ICON
+================================ */
+.password-toggle {
+    position: absolute;
+    right: 15px;
+    top: 38px;
+    cursor: pointer;
+    font-size: 18px;
+    color: #6c757d;
+    user-select: none;
+}
+
+.password-toggle:hover {
+    color: #000;
+}

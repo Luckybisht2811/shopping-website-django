@@ -1,0 +1,145 @@
+{% extends "app/base.html" %}
+{% load static %}
+{% block title %}Checkout{% endblock title %}
+
+{% block main-content %}
+<div class="container my-5">
+
+  <!-- ================= ORDER MESSAGE ================= -->
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-success text-center fw-semibold shadow-sm"
+           id="orderMessage">
+        ✅ {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <div class="row g-4">
+
+    <!-- ================= LEFT : ORDER SUMMARY ================= -->
+    <div class="col-lg-7">
+      <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-body p-4">
+
+          <h4 class="mb-4 fw-bold border-bottom pb-3">
+            🛒 Order Summary
+          </h4>
+
+          {% for item in cart_items %}
+          <div class="row align-items-center mb-3 p-2 rounded-3 bg-light">
+
+            <div class="col-3 text-center">
+              <img src="{{ item.product.product_image.url }}"
+                   class="img-fluid rounded-3"
+                   style="max-height:90px">
+            </div>
+
+            <div class="col-6">
+              <h6 class="mb-1 fw-semibold">{{ item.product.title }}</h6>
+              <span class="badge bg-secondary">Qty: {{ item.quantity }}</span>
+            </div>
+
+            <div class="col-3 text-end">
+              <span class="fw-bold fs-6">₹{{ item.item_total }}</span>
+            </div>
+
+          </div>
+          {% empty %}
+            <p class="text-center text-muted">Your cart is empty</p>
+          {% endfor %}
+
+          <div class="mt-4 pt-3 border-top">
+            <p class="d-flex justify-content-between">
+              <span>Subtotal</span>
+              <strong>₹{{ amount }}</strong>
+            </p>
+
+            <p class="d-flex justify-content-between">
+              <span>Shipping</span>
+              <strong>₹{{ shipping_amount }}</strong>
+            </p>
+
+            <hr>
+
+            <h5 class="d-flex justify-content-between fw-bold">
+              <span>Total</span>
+              <span class="text-success">₹{{ totalamount }}</span>
+            </h5>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= RIGHT : ADDRESS ================= -->
+    <div class="col-lg-5">
+      <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-body p-4">
+
+          <h4 class="mb-4 fw-bold border-bottom pb-3">
+            📍 Shipping Address
+          </h4>
+
+          <!-- IMPORTANT: action payment -->
+          <form action="{% url 'payment' %}" method="POST">
+            {% csrf_token %}
+
+            {% for ad in add %}
+            <label class="w-100">
+              <div class="card mb-3 border-0 shadow-sm address-card">
+                <div class="card-body">
+                  <div class="form-check">
+                    <input class="form-check-input"
+                           type="radio"
+                           name="custid"
+                           value="{{ ad.id }}"
+                           required>
+
+                    <span class="fw-semibold">{{ ad.name }}</span><br>
+                    <small class="text-muted">
+                      {{ ad.locality }}, {{ ad.city }},
+                      {{ ad.state }} - {{ ad.zipcode }}
+                    </small>
+                  </div>
+                </div>
+              </div>
+            </label>
+            {% empty %}
+              <p class="text-muted">No address found.</p>
+            {% endfor %}
+
+            <div class="d-grid mt-4">
+              <!-- SUBMIT BUTTON -->
+              <button type="submit"
+                      class="btn btn-warning btn-lg fw-bold rounded-pill shadow">
+                Deliver to this address
+              </button>
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+setTimeout(function () {
+  let msg = document.getElementById("orderMessage");
+  if (msg) msg.style.display = "none";
+}, 3000);
+</script>
+
+<style>
+.address-card:hover {
+  border: 2px solid #ffc107;
+  cursor: pointer;
+  transform: scale(1.01);
+  transition: 0.2s ease-in-out;
+}
+</style>
+
+{% endblock main-content %}

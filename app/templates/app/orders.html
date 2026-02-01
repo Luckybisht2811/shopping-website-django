@@ -1,0 +1,80 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}My Orders{% endblock title %}
+
+{% block main-content %}
+<div class="container my-5">
+  <div class="row">
+    <h3>Welcome <span class="text-capitalize">{{ request.user }}</span></h3>
+
+    <div class="col-sm-2 border-end">
+      <ul class="list-unstyled">
+        <li class="d-grid mb-2">
+          <a href="{% url 'orders' %}" class="btn btn-primary">Orders</a>
+        </li>
+        <li class="d-grid mb-2">
+          <a href="{% url 'address' %}" class="btn btn-secondary">My Addresses</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="col-sm-9 offset-sm-1">
+
+      {% for op in orders %}
+      <div class="row shadow-sm mb-3 p-3 rounded-3 border">
+        <div class="col-sm-2">
+          <img src="{{ op.product.product_image.url }}"
+               class="img-fluid rounded"
+               height="150" width="150" alt="{{ op.product.title }}">
+        </div>
+
+        <div class="col-sm-5">
+          <p><strong>Product:</strong> {{ op.product.title }}</p>
+          <p><strong>Quantity:</strong> {{ op.quantity }}</p>
+          <p><strong>Price:</strong> ₹{{ op.total_cost }}</p>
+          <p><strong>Payment Method:</strong> {{ op.payment_method }}</p>
+        </div>
+
+        <div class="col-sm-3 fw-bold">
+          <p>Status: {{ op.status }}</p>
+
+          {% if op.status == 'Order Placed' %}
+          <div class="progress">
+            <div class="progress-bar bg-info" style="width:20%">Placed</div>
+          </div>
+
+          {% elif op.status == 'Accepted' %}
+          <div class="progress">
+            <div class="progress-bar bg-primary" style="width:40%">Accepted</div>
+          </div>
+
+          {% elif op.status == 'On The Way' %}
+          <div class="progress">
+            <div class="progress-bar bg-warning" style="width:70%">On The Way</div>
+          </div>
+
+          {% elif op.status == 'Delivered' %}
+          <div class="progress">
+            <div class="progress-bar bg-success" style="width:100%">Delivered</div>
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="col-sm-2 text-end">
+          {% if op.payment_method != 'COD' and not op.paid %}
+          <span class="badge bg-danger">Payment Pending</span>
+          {% elif op.payment_method == 'COD' %}
+          <span class="badge bg-secondary">Cash on Delivery</span>
+          {% else %}
+          <span class="badge bg-success">Paid</span>
+          {% endif %}
+        </div>
+      </div>
+      {% empty %}
+        <p class="text-muted">No orders found.</p>
+      {% endfor %}
+
+    </div>
+  </div>
+</div>
+{% endblock main-content %}

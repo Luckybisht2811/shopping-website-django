@@ -1,0 +1,86 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block title %}Customer Registration{% endblock title %}
+
+{% block main-content %}
+
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+  <div class="col-lg-5 col-md-6 col-sm-10">
+
+    <div class="card shadow-lg border-0 rounded-4 p-5 login-card">
+
+      <!-- ===== Heading Section ===== -->
+      <h3 class="text-center fw-bold text-primary mb-1">
+        Create Account 📝
+      </h3>
+      <p class="text-center text-muted mb-4">
+        Join Lucky Store Today
+      </p>
+
+      <!-- ===== Registration Form ===== -->
+      <form method="post" novalidate>
+        {% csrf_token %}
+
+        <!-- ===== Django Messages ===== -->
+        {% if messages %}
+          {% for message in messages %}
+            <p class="alert alert-{{ message.tags }} mb-4">
+              {{ message }}
+            </p>
+          {% endfor %}
+        {% endif %}
+
+        <!-- ===== Form Fields ===== -->
+        {% for fm in form %}
+          <div class="mb-3 position-relative">
+
+            {{ fm.label_tag }}
+            {{ fm }}
+
+            {# 👁️ Password Toggle Only For Password Fields #}
+            {% if fm.field.widget.input_type == "password" %}
+              <span class="password-toggle" onclick="togglePassword()"></span>
+            {% endif %}
+
+            {% if fm.errors %}
+              <div class="text-danger small mt-1">
+                {{ fm.errors|striptags }}
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+
+        <!-- ===== Submit Button ===== -->
+        <div class="d-grid mt-4">
+          <button type="submit" class="btn btn-primary fw-bold py-2">
+            Register
+          </button>
+        </div>
+
+        <!-- ===== Login Redirect ===== -->
+        <div class="text-center mt-3">
+          <small class="text-muted">
+            Already have an account?
+            <a href="{% url 'login' %}" class="text-danger fw-bold text-decoration-none">
+              Login here
+            </a>
+          </small>
+        </div>
+
+        <!-- ===== Non Field Errors ===== -->
+        {% if form.non_field_errors %}
+          {% for error in form.non_field_errors %}
+            <div class="alert alert-danger mt-3">
+              {{ error }}
+            </div>
+          {% endfor %}
+        {% endif %}
+
+      </form>
+
+    </div>
+  </div>
+</div>
+
+{% endblock main-content %}

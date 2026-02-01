@@ -1,0 +1,105 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block title %}My Addresses{% endblock title %}
+
+{% block main-content %}
+<div class="container my-5">
+
+  <div class="row g-4">
+
+    <!-- ================= LEFT MENU CARD ================= -->
+    <div class="col-lg-3">
+      <div class="card shadow-lg rounded-4 text-center border-0 h-100">
+
+        <!-- TOP GRADIENT WITHOUT PHOTO -->
+        <div class="p-4 text-white"
+             style="background: linear-gradient(135deg, #0d6efd, #6610f2); border-radius: 1rem 1rem 0 0;">
+          <h5 class="mt-3 mb-1 fw-bold">
+            {{ request.user.username|capfirst }}
+          </h5>
+          <p class="small text-white-50 mb-0">
+            Manage your saved addresses
+          </p>
+        </div>
+
+        <!-- MENU -->
+        <div class="card-body p-3">
+          <div class="list-group list-group-flush rounded-3">
+
+            <a href="{% url 'profile' %}"
+               class="list-group-item list-group-item-action">
+              👤 My Profile
+            </a>
+
+            <a href="{% url 'address' %}"
+               class="list-group-item list-group-item-action active bg-primary text-white">
+              📍 My Address
+            </a>
+
+          </div>
+
+          <div class="mt-4">
+            <small class="text-muted">
+              ✨ Add or update addresses for faster checkout
+            </small>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ================= RIGHT CONTENT ================= -->
+    <div class="col-lg-9">
+      <div class="row g-3">
+
+        {% for ad in addresses %}
+        <div class="col-md-6">
+          <div class="card shadow-lg rounded-4 h-100">
+
+            <div class="card-body">
+              <h5 class="card-title text-primary mb-3">
+                Address {{ forloop.counter }}
+              </h5>
+
+              <p class="mb-1"><strong>Name:</strong> {{ ad.name }}</p>
+              <p class="mb-1"><strong>Locality:</strong> {{ ad.locality }}</p>
+              <p class="mb-1"><strong>City:</strong> {{ ad.city }}</p>
+              <p class="mb-1"><strong>State:</strong> {{ ad.state }}</p>
+              
+              <!-- ZIPCODE STYLE -->
+              <p class="mb-1">
+                <strong>Pin Code:</strong> 
+                <input type="number" value="{{ ad.zipcode }}" class="form-control d-inline-block"
+                       style="width:120px;"
+                       readonly>
+              </p>
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <p class="text-muted">No address found.</p>
+        {% endfor %}
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ================= CSS TO REMOVE ZIPCODE ARROWS ================= -->
+<style>
+/* Remove number input arrows for Chrome, Edge, Safari */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Remove number input arrows for Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+</style>
+
+{% endblock main-content %}

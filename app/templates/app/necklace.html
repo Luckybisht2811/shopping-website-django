@@ -1,0 +1,81 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block title %}Necklace{% endblock title %}
+
+{% block main-content %}
+<div class="container my-5">
+  <div class="row">
+
+    <!-- ================= Sidebar ================= -->
+    <div class="col-sm-3">
+      <div class="list-group">
+
+        <a href="{% url 'necklace' %}"
+           class="list-group-item list-group-item-action">
+          All Necklace
+        </a>
+
+        <a href="{% url 'necklacedata' 'Gold' %}"
+           class="list-group-item list-group-item-action">
+          Gold
+        </a>
+
+        <a href="{% url 'necklacedata' 'Silver' %}"
+           class="list-group-item list-group-item-action">
+          Silver
+        </a>
+
+        <a href="{% url 'necklacedata' 'below' %}"
+           class="list-group-item list-group-item-action">
+          Below ₹1000
+        </a>
+
+        <a href="{% url 'necklacedata' 'above' %}"
+           class="list-group-item list-group-item-action">
+          Above ₹1000
+        </a>
+
+      </div>
+    </div>
+
+    <!-- ================= Product Section ================= -->
+    <div class="col-sm-8 offset-sm-1">
+      <div class="row">
+
+        {% for product in necklace %}
+        <div class="col-sm-4 mb-4">
+          <div class="card text-center shadow-sm h-100">
+
+            <a href="{% url 'product-detail' product.id %}" class="btn p-0">
+
+              <img src="{{ product.product_image.url }}"
+                   alt="{{ product.title }}"
+                   class="card-img-top img-fluid"
+                   style="height:300px; object-fit:cover;">
+
+              <div class="card-body">
+                <h6 class="fw-bold">{{ product.title }}</h6>
+
+                <p class="fw-bold text-success mb-0">
+                  ₹ {{ product.discounted_price }}
+                  <small class="fw-light text-muted text-decoration-line-through">
+                    {{ product.selling_price }}
+                  </small>
+                </p>
+              </div>
+
+            </a>
+
+          </div>
+        </div>
+        {% empty %}
+          <h5 class="text-center mt-5">No Products Available</h5>
+        {% endfor %}
+
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock main-content %}

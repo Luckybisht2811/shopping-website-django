@@ -1,0 +1,81 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Login{% endblock title %}
+
+{% block main-content %}
+
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="col-md-6 col-sm-8 col-lg-5">
+        <div class="card shadow-lg border-0 p-5 login-card">
+
+            <h3 class="text-center fw-bold text-primary mb-2">
+                Welcome Back 👋
+            </h3>
+            <p class="text-center text-muted mb-4">
+                Login to Lucky Store
+            </p>
+
+            <form method="post" novalidate>
+                {% csrf_token %}
+
+                {% for fm in form %}
+                <div class="mb-3 position-relative">
+
+                    {{ fm.label_tag }}
+
+                    {% if fm.name == "password" %}
+                        {{ fm }}
+                        <span class="password-toggle" onclick="togglePassword()">
+                            
+                        </span>
+                    {% else %}
+                        {{ fm }}
+                    {% endif %}
+
+                    {% if fm.errors %}
+                        <small class="text-danger">
+                            {{ fm.errors|striptags }}
+                        </small>
+                    {% endif %}
+
+                </div>
+                {% endfor %}
+
+                <div class="d-flex justify-content-end mb-3">
+                    <small>
+                        <a href="{% url 'password_reset' %}">
+                            Forgot Password?
+                        </a>
+                    </small>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">
+                    Login
+                </button>
+
+                <div class="text-center mt-3">
+                    <small class="fw-bold">
+                        New to LuckyStore?
+                        <a href="{% url 'customerregistration' %}" class="text-danger">
+                            Create an Account
+                        </a>
+                    </small>
+                </div>
+
+                {% if form.non_field_errors %}
+                    {% for error in form.non_field_errors %}
+                        <div class="alert alert-danger mt-3">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<!-- Custom JS -->
+<script src="{% static 'app/js/login.js' %}"></script>
+
+{% endblock main-content %}

@@ -1,0 +1,86 @@
+{% extends "app/base.html" %}
+{% load static %}
+
+{% block title %}Payment{% endblock %}
+
+{% block main-content %}
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+
+      <div class="card payment-ui shadow-sm border-0 rounded-4">
+        <div class="card-body p-4">
+
+          <h4 class="fw-bold mb-3">Payment</h4>
+
+          <!-- AMOUNT -->
+          <div class="amount-box mb-4">
+            <span>Amount Payable</span>
+            <strong>₹{{ totalamount }}</strong>
+          </div>
+
+          <!-- ADDRESS -->
+          <h6 class="fw-bold mb-2">Delivery Address</h6>
+          <form method="POST" action="{% url 'payment_done' %}" id="paymentForm">
+            {% csrf_token %}
+
+            {% for ad in add %}
+            <label class="address-box">
+              <input type="radio" name="custid" value="{{ ad.id }}" required>
+              <div>
+                <strong>{{ ad.name }}</strong><br>
+                <small>
+                  {{ ad.locality }}, {{ ad.city }},
+                  {{ ad.state }} - {{ ad.zipcode }}
+                </small>
+              </div>
+            </label>
+            {% endfor %}
+
+            <!-- PAYMENT METHODS -->
+            <h6 class="fw-bold mt-4 mb-2">Payment Method</h6>
+
+            <label class="pay-option" id="rzp-button1">
+              <input type="radio" name="payment_method" value="Google Pay" required>
+              <img src="{% static 'app/images/gp.png' %}">
+              <span>Google Pay</span>
+            </label>
+
+            <label class="pay-option" id="rzp-button2">
+              <input type="radio" name="payment_method" value="PhonePe" required>
+              <img src="{% static 'app/images/pp.webp' %}">
+              <span>PhonePe</span>
+            </label>
+
+            <label class="pay-option" id="rzp-button3">
+              <input type="radio" name="payment_method" value="Paytm" required>
+              <img src="{% static 'app/images/pt.webp' %}">
+              <span>Paytm</span>
+            </label>
+
+            <label class="pay-option" id="cod-button">
+              <input type="radio" name="payment_method" value="COD" required>
+              <span>Cash on Delivery</span>
+            </label>
+
+            <button class="btn btn-warning w-100 fw-bold py-2 mt-4" type="submit">
+              Place Order
+            </button>
+
+          </form>
+
+          <p class="text-center text-muted small mt-3">
+            ✔ 100% Safe & Secure Payments
+          </p>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<link rel="stylesheet" href="{% static 'app/css/payment.css' %}">
+<script src="{% static 'app/js/payment.js' %}"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+{% endblock %}

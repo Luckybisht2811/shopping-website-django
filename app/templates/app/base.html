@@ -1,0 +1,149 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Owl Carousel -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+
+  <!-- FontAwesome -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
+
+  <title>Lucky Store | {% block title %}{% endblock title %}</title>
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold" href="/">Lucky Store</a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+      <!-- LEFT MENU -->
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" href="/">Home</a>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">
+            Jewellery
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'necklace' %}">Necklace</a></li>
+            <li><a class="dropdown-item" href="{% url 'earrings' %}">Ear Rings</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">
+            Fashion
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'topwear' %}">Top Wear</a></li>
+            <li><a class="dropdown-item" href="{% url 'bottomwear' %}">Bottom Wear</a></li>
+          </ul>
+        </li>
+      </ul>
+
+      <!-- SEARCH -->
+      <form class="d-flex me-3">
+        <input class="form-control me-2" type="search" placeholder="Search">
+        <button class="btn btn-warning" type="submit">
+          <i class="fa fa-search"></i>
+        </button>
+      </form>
+
+      <!-- RIGHT MENU -->
+      <ul class="navbar-nav mb-2 mb-lg-0">
+
+        {% if request.user.is_authenticated %}
+
+        <!-- PROFILE -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">
+            {{ request.user.username|capfirst }}
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
+            <li><a class="dropdown-item" href="{% url 'orders' %}">Orders</a></li>
+            <li><a class="dropdown-item" href="{% url 'passwordchange' %}">Change Password</a></li>
+            <li>
+              <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="dropdown-item text-danger">Logout</button>
+              </form>
+            </li>
+          </ul>
+        </li>
+
+        <!-- CART -->
+        <li class="nav-item mx-2">
+          <a href="{% url 'showcart' %}" class="nav-link text-white position-relative">
+            <i class="fa fa-shopping-cart"></i> Cart
+            {% if cart_item_count > 0 %}
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                {{ cart_item_count }}
+              </span>
+            {% endif %}
+          </a>
+        </li>
+
+        {% else %}
+
+        <!-- LOGIN / REGISTER -->
+        <li class="nav-item mx-2">
+          <a href="{% url 'login' %}" class="nav-link text-white">Login</a>
+        </li>
+        <li class="nav-item mx-2">
+          <a href="{% url 'customerregistration' %}" class="nav-link text-white">Register</a>
+        </li>
+
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ================= CONTENT ================= -->
+<main class="flex-grow-1">
+  {% block banner_slider %}{% endblock banner_slider %}
+  {% block livesale %}{% endblock livesale %}
+  {% block main-content %}{% endblock main-content %}
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="container-fluid bg-dark text-center p-2 mt-auto">
+  <small class="text-white">
+    Copyright © 2025 | Designed By Lucky Bisht
+  </small><br>
+  <img src="{% static 'app/images/payment.png' %}" class="img-fluid mt-1">
+</footer>
+
+<!-- ================= JS ================= -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<script src="{% static 'app/js/myscript.js' %}"></script>
+
+</body>
+</html>
