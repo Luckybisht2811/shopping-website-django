@@ -53,7 +53,8 @@ class Customer(models.Model):
     state = models.CharField(choices=STATE_CHOICES, max_length=50)
 
     def __str__(self):
-        return str(self.id)
+        return f"{self.name} ({self.user.username})"
+
     
 CATEGORY_CHOICES = (
     ('N', 'Necklace'),
@@ -141,7 +142,7 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.user.username} - {self.product.name} - {'Paid' if self.is_paid else 'Pending'}"
+        return f"{self.user.username} - {self.product.title} - {'Paid' if self.is_paid else 'Pending'}"
 
     
 
