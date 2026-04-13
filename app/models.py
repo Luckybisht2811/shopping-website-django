@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.core.validators import MaxValueValidator, MinValueValidator
 
 STATE_CHOICES = (
     # States
@@ -44,18 +43,6 @@ STATE_CHOICES = (
     ('Puducherry', 'Puducherry'),
 )
 
-class Customer(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=200)
-    locality = models.CharField(max_length= 200)
-    city = models.CharField(max_length=50)
-    zipcode = models.IntegerField()
-    state = models.CharField(choices=STATE_CHOICES, max_length=50)
-
-    def __str__(self):
-        return f"{self.name} ({self.user.username})"
-
-    
 CATEGORY_CHOICES = (
     ('N', 'Necklace'),
     ('E', 'Ear Ring'),
@@ -63,37 +50,6 @@ CATEGORY_CHOICES = (
     ('BW', 'Bottom Wear')
 )
 
-class Product(models.Model):
-    title= models.CharField(max_length=100)
-    selling_price = models.FloatField()
-    discounted_price = models.FloatField()
-    description =  models.TextField()
-    brand = models.CharField(max_length=100)
-    category = models.CharField(choices= CATEGORY_CHOICES, max_length= 2)
-    product_image = models.ImageField(upload_to='producting')
-
-    def __str__(self):
-        return self.title
-    
-class Cart(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    amount = models.DecimalField(max_digits=10, decimal_places=3, default=0) 
-    quantity = models.PositiveIntegerField(default=1)
-    razor_pay_order_id = models.CharField(max_length= 100, null= True, blank= True)
-    razor_pay_payment_id = models.CharField(max_length= 100, null= True, blank= True)
-    razorpay_payment_signature = models.CharField(max_length= 100, null= True, blank= True)
-
-
-    def __str__(self):
-        return f"{self.user.username} - {self.product.title} ({self.quantity})"
-
-    @property
-    def item_total(self):
-        return self.quantity * self.product.discounted_price
-    
-
-    
 STATUS_CHOICES = (
     ('Pending', 'Pending'),
     ('Accepted', 'Accepted'),
@@ -107,33 +63,74 @@ PAYMENT_CHOICES = (
     ('COD', 'Cash On Delivery'),
     ('ONLINE', 'Online Payment'),
 )
+
+# ---------------- CUSTOMER ----------------
+class Customer(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=200)
+    locality = models.CharField(max_length=200)
+    city = models.CharField(max_length=50)
+    zipcode = models.IntegerField()
+    state = models.CharField(choices=STATE_CHOICES, max_length=50)
+
+    def __str__(self):
+        return f"{self.name} ({self.user.username})"
+
+# ---------------- PRODUCT ----------------
+class Product(models.Model):
+    title = models.CharField(max_length=100)
+    selling_price = models.FloatField()
+    discounted_price = models.FloatField()
+    description = models.TextField()
+    brand = models.CharField(max_length=100)
+    category = models.CharField(choices=CATEGORY_CHOICES, max_length=2)
+    product_image = models.ImageField(upload_to='producting')
+
+    def __str__(self):
+        return self.title if self.title else "-"
+
+# ---------------- CART ----------------
+class Cart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True)
+    amount = models.DecimalField(max_digits=10, decimal_places=3, default=0)
+    quantity = models.PositiveIntegerField(default=1)
+    razor_pay_order_id = models.CharField(max_length=100, null=True, blank=True)
+    razor_pay_payment_id = models.CharField(max_length=100, null=True, blank=True)
+    razorpay_payment_signature = models.CharField(max_length=100, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.product.title if self.product else '-'} ({self.quantity})"
+
+    @property
+    def item_total(self):
+        return self.quantity * (self.product.discounted_price if self.product else 0)
+
+# ---------------- ORDER PLACED ----------------
 class OrderPlaced(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True, blank=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True)
     quantity = models.PositiveIntegerField(default=1)
     ordered_date = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='Pending')
-
     payment_method = models.CharField(max_length=20, choices=PAYMENT_CHOICES, default='COD')
-
     razorpay_order_id = models.CharField(max_length=100, blank=True, null=True)
     razorpay_payment_id = models.CharField(max_length=100, blank=True, null=True)
     razorpay_signature = models.CharField(max_length=255, blank=True, null=True)
     is_paid = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"Order {self.id} - {self.product.title} by {self.user.username}"
+        return f"Order {self.id} - {self.product.title if self.product else '-'} by {self.user.username}"
 
     @property
     def total_cost(self):
-        return self.quantity * self.product.discounted_price
-    
+        return self.quantity * (self.product.discounted_price if self.product else 0)
 
-
+# ---------------- ORDER ----------------
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True)
     amount = models.FloatField()
     razorpay_order_id = models.CharField(max_length=100, blank=True, null=True)
     razorpay_payment_id = models.CharField(max_length=100, blank=True, null=True)
@@ -142,8 +139,4 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.user.username} - {self.product.title} - {'Paid' if self.is_paid else 'Pending'}"
-
-    
-
-
+        return f"{self.user.username} - {self.product.title if self.product else '-'} - {'Paid' if self.is_paid else 'Pending'}"

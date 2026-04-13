@@ -6,126 +6,423 @@
 {% block main-content %}
 <div class="container my-5">
 
+  <!-- PAGE HEADER -->
+  <div style="margin-bottom:36px; border-bottom:1px solid #E8E2D5; padding-bottom:20px;">
+    <p style="font-size:11px; letter-spacing:3px; text-transform:uppercase; color:#C9A84C; margin-bottom:6px;">Account</p>
+    <h1 style="font-family:'Cormorant Garamond',serif; font-size:40px; font-weight:600; color:#1C1C1C;">My Profile</h1>
+  </div>
+
   <div class="row g-4">
 
-    <!-- ================= LEFT PROFILE CARD ================= -->
-<!-- LEFT PROFILE CARD -->
-<div class="col-lg-3">
-  <div class="card shadow-lg rounded-4 text-center border-0 h-100">
+    <!-- ===== LEFT SIDEBAR ===== -->
+    <div class="col-lg-3">
 
-    <!-- TOP GRADIENT (WITHOUT PHOTO) -->
-    <div class="p-4 text-white"
-         style="background: linear-gradient(135deg, #0d6efd, #6610f2); border-radius: 1rem 1rem 0 0;">
-      <h5 class="mt-3 mb-1 fw-bold">
-        {{ request.user.username|capfirst }}
-      </h5>
-      <p class="small text-white-50 mb-0">
-        Manage your personal info
-      </p>
-    </div>
-
-    <!-- MENU -->
-    <div class="card-body p-3 d-flex flex-column justify-content-between">
-      <div>
-        <div class="list-group list-group-flush rounded-3">
-          <a href="{% url 'profile' %}"
-             class="list-group-item list-group-item-action active bg-primary text-white">
-            👤 My Profile
-          </a>
-
-          <a href="{% url 'address' %}"
-             class="list-group-item list-group-item-action">
-            📍 My Address
-          </a>
+      <!-- USER CARD -->
+      <div style="background:#1C1C1C; padding:32px 24px; text-align:center; margin-bottom:12px;">
+        <div style="width:72px; height:72px; border-radius:50%; background:#C9A84C; display:flex; align-items:center; justify-content:center; margin:0 auto 16px; font-family:'Cormorant Garamond',serif; font-size:30px; font-weight:600; color:#fff;">
+          {{ request.user.username|first|upper }}
         </div>
+        <h5 style="font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:600; color:#fff; margin-bottom:4px;">
+          {{ request.user.username|capfirst }}
+        </h5>
+        <p style="font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:#888; margin-bottom:0;">
+          {{ request.user.email|default:"Lucky Store Member" }}
+        </p>
       </div>
 
-      <!-- BOTTOM MESSAGE -->
-      <div class="mt-3">
-        <small class="text-muted">
-          ✨ Keep your profile updated for faster checkout
-        </small>
+      <!-- NAV MENU -->
+      <div style="background:#fff; border:1px solid #E8E2D5;">
+        <a href="{% url 'profile' %}"
+           style="display:flex; align-items:center; gap:12px; padding:16px 20px; text-decoration:none; border-bottom:1px solid #E8E2D5; background:#FAF8F3; border-left:3px solid #C9A84C;">
+          <i class="fa fa-user" style="color:#C9A84C; width:16px; font-size:14px;"></i>
+          <span style="font-size:13px; font-weight:500; letter-spacing:0.5px; color:#1C1C1C;">My Profile</span>
+        </a>
+        <a href="{% url 'address' %}"
+           style="display:flex; align-items:center; gap:12px; padding:16px 20px; text-decoration:none; border-bottom:1px solid #E8E2D5; border-left:3px solid transparent; transition:all 0.2s;"
+           onmouseover="this.style.background='#FAF8F3'; this.style.borderLeftColor='#E8E2D5';"
+           onmouseout="this.style.background='#fff'; this.style.borderLeftColor='transparent';">
+          <i class="fa fa-location-dot" style="color:#888; width:16px; font-size:14px;"></i>
+          <span style="font-size:13px; font-weight:500; letter-spacing:0.5px; color:#555;">My Addresses</span>
+        </a>
+        <a href="{% url 'orders' %}"
+           style="display:flex; align-items:center; gap:12px; padding:16px 20px; text-decoration:none; border-bottom:1px solid #E8E2D5; border-left:3px solid transparent; transition:all 0.2s;"
+           onmouseover="this.style.background='#FAF8F3'; this.style.borderLeftColor='#E8E2D5';"
+           onmouseout="this.style.background='#fff'; this.style.borderLeftColor='transparent';">
+          <i class="fa fa-box" style="color:#888; width:16px; font-size:14px;"></i>
+          <span style="font-size:13px; font-weight:500; letter-spacing:0.5px; color:#555;">My Orders</span>
+        </a>
+        <a href="{% url 'passwordchange' %}"
+           style="display:flex; align-items:center; gap:12px; padding:16px 20px; text-decoration:none; border-left:3px solid transparent; transition:all 0.2s;"
+           onmouseover="this.style.background='#FAF8F3'; this.style.borderLeftColor='#E8E2D5';"
+           onmouseout="this.style.background='#fff'; this.style.borderLeftColor='transparent';">
+          <i class="fa fa-lock" style="color:#888; width:16px; font-size:14px;"></i>
+          <span style="font-size:13px; font-weight:500; letter-spacing:0.5px; color:#555;">Change Password</span>
+        </a>
       </div>
+
+      <!-- TIP BOX -->
+      <div style="background:#F0DFA0; border:1px solid #C9A84C; padding:16px 18px; margin-top:12px;">
+        <p style="font-size:11px; letter-spacing:1px; text-transform:uppercase; color:#8B6914; margin-bottom:6px; font-weight:500;">
+          <i class="fa fa-lightbulb me-1"></i> Pro Tip
+        </p>
+        <p style="font-size:12px; color:#6b530a; margin:0; line-height:1.6;">
+          Keep your address updated for faster, hassle-free checkout every time.
+        </p>
+      </div>
+
     </div>
 
-  </div>
-</div>
-
-    <!-- ================= RIGHT FORM CARD ================= -->
+    <!-- ===== RIGHT FORM ===== -->
     <div class="col-lg-9">
-      <div class="card shadow-lg rounded-4 border-0 h-100">
+      <div style="background:#fff; border:1px solid #E8E2D5; padding:36px;">
 
-        <div class="card-header bg-white border-0 p-4">
-          <h4 class="fw-bold mb-1">Profile Information</h4>
-          <p class="text-muted mb-0">
-            Update your details to enjoy a smoother shopping experience
-          </p>
+        <!-- FORM HEADER -->
+        <div style="margin-bottom:28px; padding-bottom:20px; border-bottom:1px solid #E8E2D5; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+          <div>
+            <p style="font-size:11px; letter-spacing:2px; text-transform:uppercase; color:#888; margin-bottom:6px;">
+              <i class="fa fa-plus-circle me-1" style="color:#C9A84C;"></i>Save New Address
+            </p>
+            <h4 style="font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:600; color:#1C1C1C; margin:0;">
+              Add Delivery Address
+            </h4>
+          </div>
+          <div style="background:#FAF8F3; border:1px solid #E8E2D5; padding:10px 16px; font-size:12px; color:#888; letter-spacing:0.5px;">
+            <i class="fa fa-shield-halved me-1" style="color:#C9A84C;"></i>
+            Your info is secure with us
+          </div>
         </div>
 
-        <div class="card-body p-4">
+        <form method="post" novalidate id="profileForm">
+          {% csrf_token %}
 
-          <form method="post" novalidate>
-            {% csrf_token %}
-
-            <div class="row g-4">
-              {% for fm in form %}
-                <div class="col-md-6">
-                  <label class="form-label fw-semibold">
-                    {{ fm.label }}
+          <div class="row g-4">
+            {% for fm in form %}
+              {% if fm.name == 'locality' or fm.name == 'state' %}
+              <div class="col-12">
+              {% else %}
+              <div class="col-md-6">
+              {% endif %}
+                <div style="position:relative;">
+                  <label style="display:block; font-size:11px; font-weight:500; letter-spacing:1.5px; text-transform:uppercase; color:#888; margin-bottom:8px;">
+                    {{ fm.label }}<span style="color:#C9A84C;">*</span>
                   </label>
+                  <div style="position:relative;">
+                    {% if fm.name == 'name' %}
+                      <i class="fa fa-user" style="position:absolute; left:14px; top:50%; transform:translateY(-50%); color:#C9A84C; font-size:13px; z-index:1;"></i>
+                    {% elif fm.name == 'locality' %}
+                      <i class="fa fa-map-pin" style="position:absolute; left:14px; top:50%; transform:translateY(-50%); color:#C9A84C; font-size:13px; z-index:1;"></i>
+                    {% elif fm.name == 'city' %}
+                      <i class="fa fa-city" style="position:absolute; left:14px; top:50%; transform:translateY(-50%); color:#C9A84C; font-size:13px; z-index:1;"></i>
+                    {% elif fm.name == 'zipcode' %}
+                      <i class="fa fa-hashtag" style="position:absolute; left:14px; top:50%; transform:translateY(-50%); color:#C9A84C; font-size:13px; z-index:1;"></i>
+                    {% elif fm.name == 'state' %}
+                      <i class="fa fa-map" style="position:absolute; left:14px; top:50%; transform:translateY(-50%); color:#C9A84C; font-size:13px; z-index:1;"></i>
+                    {% endif %}
 
-                  {# Check if this is zipcode field #}
-                  {% if fm.name == 'zipcode' %}
-                    <input type="number"
-                           name="{{ fm.name }}"
-                           value="{{ fm.value|default_if_none:'' }}"
-                           class="form-control"
-                           placeholder="Enter 6-digit zipcode"
-                           min="0"
-                           max="999999"
-                           oninput="if(this.value.length>6)this.value=this.value.slice(0,6)"
-                           required>
-                  {% else %}
-                    {{ fm }}
+                    {% if fm.name == 'zipcode' %}
+                      <input type="number"
+                             name="{{ fm.name }}"
+                             value="{{ fm.value|default_if_none:'' }}"
+                             class="luxury-input"
+                             placeholder="6-digit PIN code"
+                             min="100000" max="999999"
+                             oninput="if(this.value.length>6)this.value=this.value.slice(0,6)"
+                             required>
+                    {% else %}
+                      <div class="field-wrapper">{{ fm }}</div>
+                    {% endif %}
+                  </div>
+                  {% if fm.errors %}
+                  <p style="font-size:12px; color:#c0392b; margin-top:6px;">
+                    <i class="fa fa-exclamation-circle me-1"></i>{{ fm.errors|striptags }}
+                  </p>
                   {% endif %}
-
-                  <small class="text-danger">
-                    {{ fm.errors|striptags }}
-                  </small>
                 </div>
-              {% endfor %}
-            </div>
+              </div>
+            {% endfor %}
+          </div>
 
-            <!-- SAVE BUTTON -->
-            <div class="text-end mt-5">
-              <button type="submit"
-                      class="btn btn-primary btn-lg px-5 rounded-pill shadow">
-                💾 Save Changes
-              </button>
-            </div>
+          <div style="border-top:1px solid #E8E2D5; margin:36px 0 28px;"></div>
 
-          </form>
+          <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+            <p style="font-size:12px; color:#aaa; margin:0;">
+              <i class="fa fa-info-circle me-1" style="color:#C9A84C;"></i>
+              This address will be saved for future orders
+            </p>
+            <button type="submit" id="saveBtn"
+                    style="background:#1C1C1C; color:#fff; border:none; padding:14px 40px; font-size:12px; font-weight:500; letter-spacing:2px; text-transform:uppercase; cursor:pointer; transition:background 0.2s; display:flex; align-items:center; gap:10px;"
+                    onmouseover="if(!this.disabled) this.style.background='#C9A84C'"
+                    onmouseout="if(!this.disabled) this.style.background='#1C1C1C'">
+              <i class="fa fa-save" id="saveBtnIcon"></i>
+              <span id="saveBtnText">Save Address</span>
+            </button>
+          </div>
 
-        </div>
+        </form>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- ======================================================= -->
+<!-- SUCCESS OVERLAY                                         -->
+<!-- ======================================================= -->
+<div id="successOverlay"
+     style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:99999; align-items:center; justify-content:center;">
+
+  <div id="successCard"
+       style="background:#fff; padding:52px 40px 44px; max-width:420px; width:90%; text-align:center; position:relative; transform:scale(0.75); opacity:0; transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s ease;">
+
+    <!-- CLOSE X -->
+    <button onclick="closeSuccess()"
+            style="position:absolute; top:16px; right:20px; background:none; border:none; font-size:20px; color:#bbb; cursor:pointer; line-height:1; transition:color 0.2s;"
+            onmouseover="this.style.color='#1C1C1C'"
+            onmouseout="this.style.color='#bbb'">
+      &times;
+    </button>
+
+    <!-- ANIMATED SVG CHECKMARK -->
+    <div style="margin:0 auto 28px; width:88px; height:88px; position:relative;">
+      <svg viewBox="0 0 88 88" fill="none" xmlns="http://www.w3.org/2000/svg" width="88" height="88">
+        <!-- Outer ring -->
+        <circle cx="44" cy="44" r="40" stroke="#F0DFA0" stroke-width="2"/>
+        <!-- Animated circle -->
+        <circle cx="44" cy="44" r="36"
+                stroke="#C9A84C" stroke-width="3"
+                stroke-linecap="round"
+                stroke-dasharray="226" stroke-dashoffset="226"
+                id="checkCircle"
+                style="transform-origin:center; transform:rotate(-90deg); transition:stroke-dashoffset 0.7s ease 0.15s;"/>
+        <!-- Animated tick -->
+        <path d="M26 44 L38 56 L62 30"
+              stroke="#C9A84C" stroke-width="4"
+              stroke-linecap="round" stroke-linejoin="round"
+              stroke-dasharray="52" stroke-dashoffset="52"
+              id="checkMark"
+              style="transition:stroke-dashoffset 0.45s ease 0.75s;"/>
+      </svg>
+    </div>
+
+    <!-- LABEL -->
+    <p id="sLabel"
+       style="font-size:11px; letter-spacing:3px; text-transform:uppercase; color:#C9A84C; margin-bottom:10px; opacity:0; transform:translateY(10px); transition:all 0.4s ease 1s;">
+      Success
+    </p>
+
+    <!-- TITLE -->
+    <h3 id="sTitle"
+        style="font-family:'Cormorant Garamond',serif; font-size:30px; font-weight:600; color:#1C1C1C; margin-bottom:10px; opacity:0; transform:translateY(10px); transition:all 0.4s ease 1.1s;">
+      Address Saved!
+    </h3>
+
+    <!-- DESC -->
+    <p id="sDesc"
+       style="font-size:14px; color:#888; line-height:1.8; margin-bottom:32px; opacity:0; transform:translateY(10px); transition:all 0.4s ease 1.2s;">
+      Your delivery address has been saved successfully.<br>
+      You're all set for a faster checkout! 🎉
+    </p>
+
+    <!-- BUTTONS -->
+    <div id="sActions"
+         style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; opacity:0; transform:translateY(10px); transition:all 0.4s ease 1.3s;">
+      <a href="{% url 'address' %}"
+         style="background:#1C1C1C; color:#fff; text-decoration:none; padding:13px 28px; font-size:11px; font-weight:500; letter-spacing:1.5px; text-transform:uppercase; transition:background 0.2s;"
+         onmouseover="this.style.background='#C9A84C'"
+         onmouseout="this.style.background='#1C1C1C'">
+        <i class="fa fa-location-dot me-1"></i> View Addresses
+      </a>
+      <button onclick="closeSuccess()"
+              style="background:transparent; border:1px solid #E8E2D5; color:#555; padding:13px 28px; font-size:11px; font-weight:500; letter-spacing:1.5px; text-transform:uppercase; cursor:pointer; transition:all 0.2s;"
+              onmouseover="this.style.borderColor='#C9A84C'; this.style.color='#C9A84C';"
+              onmouseout="this.style.borderColor='#E8E2D5'; this.style.color='#555';">
+        <i class="fa fa-plus me-1"></i> Add Another
+      </button>
+    </div>
+
+    <!-- CONFETTI CONTAINER -->
+    <div id="confettiWrap" style="position:absolute; inset:0; pointer-events:none; overflow:hidden;"></div>
 
   </div>
 </div>
 
-<!-- ================= CSS TO REMOVE ZIPCODE ARROWS ================= -->
+<!-- ======================================================= -->
+<!-- STYLES                                                  -->
+<!-- ======================================================= -->
 <style>
-/* Remove number input arrows for Chrome, Edge, Safari */
 input[type=number]::-webkit-outer-spin-button,
-input[type=number]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+input[type=number]::-webkit-inner-spin-button { -webkit-appearance:none; margin:0; }
+input[type=number] { -moz-appearance:textfield; }
+
+.luxury-input,
+.field-wrapper input,
+.field-wrapper select,
+.field-wrapper textarea {
+  width:100%;
+  border:1px solid #E8E2D5;
+  border-radius:0;
+  padding:12px 14px 12px 40px;
+  font-size:14px;
+  font-family:'DM Sans', sans-serif;
+  color:#1C1C1C;
+  background:#FAF8F3;
+  transition:border-color 0.2s, background 0.2s;
+  outline:none;
+  appearance:none;
+  -webkit-appearance:none;
+}
+.luxury-input:focus,
+.field-wrapper input:focus,
+.field-wrapper select:focus {
+  border-color:#C9A84C;
+  background:#fff;
+  box-shadow:0 0 0 3px rgba(201,168,76,0.12);
+}
+.field-wrapper select {
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23C9A84C' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 14px center;
+  padding-right:36px;
+  cursor:pointer;
 }
 
-/* Remove number input arrows for Firefox */
-input[type=number] {
-    -moz-appearance: textfield;
+@keyframes confettiFall {
+  0%   { transform:translateY(-20px) rotate(0deg);   opacity:1; }
+  80%  { opacity:0.8; }
+  100% { transform:translateY(380px) rotate(800deg); opacity:0; }
+}
+@keyframes confettiSway {
+  0%,100% { margin-left:0; }
+  50%      { margin-left:18px; }
 }
 </style>
+
+<!-- ======================================================= -->
+<!-- JAVASCRIPT                                              -->
+<!-- ======================================================= -->
+<script>
+/* ---------- CONFETTI ---------- */
+function spawnConfetti() {
+  const wrap   = document.getElementById('confettiWrap');
+  wrap.innerHTML = '';
+  const colors = ['#C9A84C','#F0DFA0','#1C1C1C','#8B6914','#E8E2D5','#fff'];
+  const shapes = ['50%','2px'];
+  for (let i = 0; i < 34; i++) {
+    const el   = document.createElement('div');
+    const size = Math.random() * 9 + 5;
+    const dur  = (1.4 + Math.random() * 1.2).toFixed(2);
+    const del  = (Math.random() * 0.7).toFixed(2);
+    el.style.cssText = `
+      position:absolute;
+      left:${(Math.random()*90+5).toFixed(1)}%;
+      top:-12px;
+      width:${size}px;
+      height:${size}px;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      border-radius:${shapes[Math.floor(Math.random()*shapes.length)]};
+      animation:confettiFall ${dur}s ease ${del}s forwards,
+                confettiSway ${(0.6+Math.random()*0.5).toFixed(2)}s ease-in-out ${del}s infinite alternate;
+    `;
+    wrap.appendChild(el);
+  }
+}
+
+/* ---------- SHOW OVERLAY ---------- */
+function showSuccess() {
+  const overlay = document.getElementById('successOverlay');
+  const card    = document.getElementById('successCard');
+  overlay.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+
+  // Card pop-in
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    card.style.transform = 'scale(1)';
+    card.style.opacity   = '1';
+  }));
+
+  // SVG animations
+  setTimeout(() => document.getElementById('checkCircle').style.strokeDashoffset = '0', 100);
+  setTimeout(() => document.getElementById('checkMark').style.strokeDashoffset   = '0', 750);
+
+  // Text stagger
+  setTimeout(() => {
+    ['sLabel','sTitle','sDesc','sActions'].forEach(id => {
+      const el = document.getElementById(id);
+      el.style.opacity   = '1';
+      el.style.transform = 'translateY(0)';
+    });
+  }, 950);
+
+  // Confetti burst
+  setTimeout(spawnConfetti, 750);
+}
+
+/* ---------- CLOSE OVERLAY ---------- */
+function closeSuccess() {
+  const card = document.getElementById('successCard');
+  card.style.transform = 'scale(0.85)';
+  card.style.opacity   = '0';
+  setTimeout(() => {
+    document.getElementById('successOverlay').style.display = 'none';
+    document.body.style.overflow = '';
+    // Reset SVG
+    document.getElementById('checkCircle').style.strokeDashoffset = '226';
+    document.getElementById('checkMark').style.strokeDashoffset   = '52';
+    // Reset text
+    ['sLabel','sTitle','sDesc','sActions'].forEach(id => {
+      const el = document.getElementById(id);
+      el.style.opacity   = '0';
+      el.style.transform = 'translateY(10px)';
+    });
+    card.style.transform = 'scale(0.75)';
+    document.getElementById('confettiWrap').innerHTML = '';
+  }, 320);
+}
+
+/* ---------- FORM SUBMIT ---------- */
+document.getElementById('profileForm').addEventListener('submit', function(e) {
+  if (!this.checkValidity()) return; // let browser show validation errors
+
+  e.preventDefault();
+
+  const btn     = document.getElementById('saveBtn');
+  const btnIcon = document.getElementById('saveBtnIcon');
+  const btnText = document.getElementById('saveBtnText');
+
+  // Loading state
+  btn.disabled         = true;
+  btn.style.background = '#C9A84C';
+  btnIcon.className    = 'fa fa-spinner fa-spin';
+  btnText.textContent  = 'Saving...';
+
+  // POST via fetch
+  fetch(window.location.href, {
+    method : 'POST',
+    body   : new FormData(this),
+    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+  })
+  .finally(() => {
+    // Always show success & reset
+    showSuccess();
+    btn.disabled         = false;
+    btn.style.background = '#1C1C1C';
+    btnIcon.className    = 'fa fa-save';
+    btnText.textContent  = 'Save Address';
+    document.getElementById('profileForm').reset();
+  });
+});
+
+/* ---------- BACKDROP CLICK & ESCAPE ---------- */
+document.getElementById('successOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeSuccess();
+});
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeSuccess();
+});
+
+/* ---------- SHOW ON PAGE LOAD if Django already saved ---------- */
+{% if messages %}
+  window.addEventListener('DOMContentLoaded', showSuccess);
+{% endif %}
+</script>
 
 {% endblock main-content %}

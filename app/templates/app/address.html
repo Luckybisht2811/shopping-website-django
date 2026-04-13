@@ -6,100 +6,293 @@
 {% block main-content %}
 <div class="container my-5">
 
+  <!-- PAGE HEADER -->
+  <div style="margin-bottom:36px; border-bottom:1px solid #E8E2D5; padding-bottom:20px;">
+    <p style="font-size:11px; letter-spacing:3px; text-transform:uppercase; color:#C9A84C; margin-bottom:6px;">Account</p>
+    <h1 style="font-family:'Cormorant Garamond',serif; font-size:40px; font-weight:600; color:#1C1C1C;">My Addresses</h1>
+  </div>
+
+  <!-- FLASH MESSAGES -->
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert-luxury alert d-flex align-items-center gap-2 mb-4" id="flashMsg">
+        <i class="fa fa-check-circle" style="color:#C9A84C;"></i>
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+
   <div class="row g-4">
 
-    <!-- ================= LEFT MENU CARD ================= -->
+    <!-- ===== LEFT SIDEBAR ===== -->
     <div class="col-lg-3">
-      <div class="card shadow-lg rounded-4 text-center border-0 h-100">
 
-        <!-- TOP GRADIENT WITHOUT PHOTO -->
-        <div class="p-4 text-white"
-             style="background: linear-gradient(135deg, #0d6efd, #6610f2); border-radius: 1rem 1rem 0 0;">
-          <h5 class="mt-3 mb-1 fw-bold">
-            {{ request.user.username|capfirst }}
-          </h5>
-          <p class="small text-white-50 mb-0">
-            Manage your saved addresses
-          </p>
+      <!-- USER CARD -->
+      <div style="background:#1C1C1C; padding:32px 24px; text-align:center; margin-bottom:12px;">
+        <div style="width:72px; height:72px; border-radius:50%; background:#C9A84C; display:flex; align-items:center; justify-content:center; margin:0 auto 16px; font-family:'Cormorant Garamond',serif; font-size:30px; font-weight:600; color:#fff;">
+          {{ request.user.username|first|upper }}
         </div>
-
-        <!-- MENU -->
-        <div class="card-body p-3">
-          <div class="list-group list-group-flush rounded-3">
-
-            <a href="{% url 'profile' %}"
-               class="list-group-item list-group-item-action">
-              👤 My Profile
-            </a>
-
-            <a href="{% url 'address' %}"
-               class="list-group-item list-group-item-action active bg-primary text-white">
-              📍 My Address
-            </a>
-
-          </div>
-
-          <div class="mt-4">
-            <small class="text-muted">
-              ✨ Add or update addresses for faster checkout
-            </small>
-          </div>
-        </div>
-
+        <h5 style="font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:600; color:#fff; margin-bottom:4px;">
+          {{ request.user.username|capfirst }}
+        </h5>
+        <p style="font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:#888; margin-bottom:0;">
+          {{ request.user.email|default:"Lucky Store Member" }}
+        </p>
       </div>
+
+      <!-- NAV MENU -->
+      <div style="background:#fff; border:1px solid #E8E2D5;">
+        <a href="{% url 'profile' %}"
+           style="display:flex; align-items:center; gap:12px; padding:16px 20px; text-decoration:none; border-bottom:1px solid #E8E2D5; border-left:3px solid transparent; transition:all 0.2s;"
+           onmouseover="this.style.background='#FAF8F3'; this.style.borderLeftColor='#E8E2D5';"
+           onmouseout="this.style.background='#fff'; this.style.borderLeftColor='transparent';">
+          <i class="fa fa-user" style="color:#888; width:16px; font-size:14px;"></i>
+          <span style="font-size:13px; font-weight:500; letter-spacing:0.5px; color:#555;">My Profile</span>
+        </a>
+        <a href="{% url 'address' %}"
+           style="display:flex; align-items:center; gap:12px; padding:16px 20px; text-decoration:none; border-bottom:1px solid #E8E2D5; background:#FAF8F3; border-left:3px solid #C9A84C;">
+          <i class="fa fa-location-dot" style="color:#C9A84C; width:16px; font-size:14px;"></i>
+          <span style="font-size:13px; font-weight:500; letter-spacing:0.5px; color:#1C1C1C;">My Addresses</span>
+        </a>
+        <a href="{% url 'orders' %}"
+           style="display:flex; align-items:center; gap:12px; padding:16px 20px; text-decoration:none; border-bottom:1px solid #E8E2D5; border-left:3px solid transparent; transition:all 0.2s;"
+           onmouseover="this.style.background='#FAF8F3'; this.style.borderLeftColor='#E8E2D5';"
+           onmouseout="this.style.background='#fff'; this.style.borderLeftColor='transparent';">
+          <i class="fa fa-box" style="color:#888; width:16px; font-size:14px;"></i>
+          <span style="font-size:13px; font-weight:500; letter-spacing:0.5px; color:#555;">My Orders</span>
+        </a>
+        <a href="{% url 'passwordchange' %}"
+           style="display:flex; align-items:center; gap:12px; padding:16px 20px; text-decoration:none; border-left:3px solid transparent; transition:all 0.2s;"
+           onmouseover="this.style.background='#FAF8F3'; this.style.borderLeftColor='#E8E2D5';"
+           onmouseout="this.style.background='#fff'; this.style.borderLeftColor='transparent';">
+          <i class="fa fa-lock" style="color:#888; width:16px; font-size:14px;"></i>
+          <span style="font-size:13px; font-weight:500; letter-spacing:0.5px; color:#555;">Change Password</span>
+        </a>
+      </div>
+
+      <!-- TIP BOX -->
+      <div style="background:#F0DFA0; border:1px solid #C9A84C; padding:16px 18px; margin-top:12px;">
+        <p style="font-size:11px; letter-spacing:1px; text-transform:uppercase; color:#8B6914; margin-bottom:6px; font-weight:500;">
+          <i class="fa fa-lightbulb me-1"></i> Pro Tip
+        </p>
+        <p style="font-size:12px; color:#6b530a; margin:0; line-height:1.6;">
+          You can save multiple addresses — home, office, or family — and pick one at checkout.
+        </p>
+      </div>
+
     </div>
 
-    <!-- ================= RIGHT CONTENT ================= -->
+    <!-- ===== RIGHT CONTENT ===== -->
     <div class="col-lg-9">
-      <div class="row g-3">
 
+      <!-- TOP ACTION BAR -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; flex-wrap:wrap; gap:12px;">
+        <div>
+          <p style="font-size:11px; letter-spacing:2px; text-transform:uppercase; color:#888; margin-bottom:4px;">
+            Saved Addresses
+          </p>
+          <p style="font-size:14px; color:#555; margin:0;">
+            {% if addresses %}
+              You have <strong style="color:#1C1C1C;">{{ addresses|length }}</strong> saved address{{ addresses|length|pluralize }}
+            {% else %}
+              No addresses saved yet
+            {% endif %}
+          </p>
+        </div>
+        <a href="{% url 'profile' %}"
+           style="display:inline-flex; align-items:center; gap:8px; background:#1C1C1C; color:#fff; text-decoration:none; padding:12px 24px; font-size:12px; font-weight:500; letter-spacing:1.5px; text-transform:uppercase; transition:background 0.2s;"
+           onmouseover="this.style.background='#C9A84C'"
+           onmouseout="this.style.background='#1C1C1C'">
+          <i class="fa fa-plus"></i> Add New Address
+        </a>
+      </div>
+
+      <!-- ADDRESS CARDS GRID -->
+      {% if addresses %}
+      <div class="row g-3">
         {% for ad in addresses %}
         <div class="col-md-6">
-          <div class="card shadow-lg rounded-4 h-100">
+          <div class="address-card" id="card-{{ ad.id }}"
+               style="background:#fff; border:1px solid #E8E2D5; padding:24px; height:100%; position:relative; transition:box-shadow 0.2s;">
 
-            <div class="card-body">
-              <h5 class="card-title text-primary mb-3">
-                Address {{ forloop.counter }}
-              </h5>
+            <!-- ADDRESS NUMBER BADGE -->
+            <div style="position:absolute; top:16px; right:16px; background:#FAF8F3; border:1px solid #E8E2D5; width:32px; height:32px; display:flex; align-items:center; justify-content:center; font-family:'Cormorant Garamond',serif; font-size:16px; font-weight:600; color:#C9A84C;">
+              {{ forloop.counter }}
+            </div>
 
-              <p class="mb-1"><strong>Name:</strong> {{ ad.name }}</p>
-              <p class="mb-1"><strong>Locality:</strong> {{ ad.locality }}</p>
-              <p class="mb-1"><strong>City:</strong> {{ ad.city }}</p>
-              <p class="mb-1"><strong>State:</strong> {{ ad.state }}</p>
-              
-              <!-- ZIPCODE STYLE -->
-              <p class="mb-1">
-                <strong>Pin Code:</strong> 
-                <input type="number" value="{{ ad.zipcode }}" class="form-control d-inline-block"
-                       style="width:120px;"
-                       readonly>
-              </p>
+            <!-- ADDRESS DETAILS -->
+            <div style="margin-bottom:20px;">
+              <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+                <div style="width:36px; height:36px; background:#FAF8F3; border:1px solid #E8E2D5; display:flex; align-items:center; justify-content:center;">
+                  <i class="fa fa-location-dot" style="color:#C9A84C; font-size:14px;"></i>
+                </div>
+                <div>
+                  <p style="font-family:'Cormorant Garamond',serif; font-size:18px; font-weight:600; color:#1C1C1C; margin:0;">
+                    {{ ad.name }}
+                  </p>
+                </div>
+              </div>
+
+              <div style="border-left:2px solid #E8E2D5; padding-left:14px; margin-left:6px;">
+                <p style="font-size:13px; color:#555; margin-bottom:6px; display:flex; gap:8px;">
+                  <i class="fa fa-map-pin" style="color:#C9A84C; margin-top:2px; width:14px; font-size:12px;"></i>
+                  <span>{{ ad.locality }}</span>
+                </p>
+                <p style="font-size:13px; color:#555; margin-bottom:6px; display:flex; gap:8px;">
+                  <i class="fa fa-city" style="color:#C9A84C; margin-top:2px; width:14px; font-size:12px;"></i>
+                  <span>{{ ad.city }}, {{ ad.state }}</span>
+                </p>
+                <p style="font-size:13px; color:#555; margin-bottom:0; display:flex; gap:8px;">
+                  <i class="fa fa-hashtag" style="color:#C9A84C; margin-top:2px; width:14px; font-size:12px;"></i>
+                  <span style="font-weight:500; letter-spacing:1px;">{{ ad.zipcode }}</span>
+                </p>
+              </div>
+            </div>
+
+            <!-- ACTION BUTTONS -->
+            <div style="border-top:1px solid #E8E2D5; padding-top:16px; display:flex; gap:10px; flex-wrap:wrap;">
+
+              <!-- USE THIS ADDRESS (goes to checkout) -->
+              <a href="{% url 'checkout' %}"
+                 style="flex:1; text-align:center; background:#1C1C1C; color:#fff; text-decoration:none; padding:10px 14px; font-size:11px; font-weight:500; letter-spacing:1.5px; text-transform:uppercase; transition:background 0.2s; min-width:100px;"
+                 onmouseover="this.style.background='#C9A84C'"
+                 onmouseout="this.style.background='#1C1C1C'">
+                <i class="fa fa-bag-shopping me-1"></i> Use This
+              </a>
+
+              <!-- DELETE BUTTON -->
+              <button onclick="confirmDelete({{ ad.id }}, '{{ ad.name }}')"
+                      style="background:transparent; border:1px solid #E8E2D5; color:#888; padding:10px 14px; font-size:11px; font-weight:500; letter-spacing:1.5px; text-transform:uppercase; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; gap:6px;"
+                      onmouseover="this.style.borderColor='#c0392b'; this.style.color='#c0392b'; this.style.background='#fff5f5';"
+                      onmouseout="this.style.borderColor='#E8E2D5'; this.style.color='#888'; this.style.background='transparent';">
+                <i class="fa fa-trash-alt" style="font-size:11px;"></i> Remove
+              </button>
+
             </div>
           </div>
         </div>
-        {% empty %}
-        <p class="text-muted">No address found.</p>
         {% endfor %}
-
       </div>
-    </div>
 
+      {% else %}
+      <!-- EMPTY STATE -->
+      <div style="background:#fff; border:1px solid #E8E2D5; padding:64px 32px; text-align:center;">
+        <div style="width:72px; height:72px; background:#FAF8F3; border:1px solid #E8E2D5; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 24px;">
+          <i class="fa fa-location-dot fa-2x" style="color:#E8E2D5;"></i>
+        </div>
+        <h4 style="font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:600; color:#1C1C1C; margin-bottom:10px;">
+          No Addresses Saved
+        </h4>
+        <p style="font-size:14px; color:#888; margin-bottom:28px; line-height:1.7;">
+          You haven't saved any delivery addresses yet.<br>
+          Add one now for a faster checkout experience.
+        </p>
+        <a href="{% url 'profile' %}"
+           style="display:inline-flex; align-items:center; gap:8px; background:#1C1C1C; color:#fff; text-decoration:none; padding:14px 36px; font-size:12px; font-weight:500; letter-spacing:2px; text-transform:uppercase; transition:background 0.2s;"
+           onmouseover="this.style.background='#C9A84C'"
+           onmouseout="this.style.background='#1C1C1C'">
+          <i class="fa fa-plus"></i> Add Your First Address
+        </a>
+      </div>
+      {% endif %}
+
+    </div>
   </div>
 </div>
 
-<!-- ================= CSS TO REMOVE ZIPCODE ARROWS ================= -->
+<!-- ================= DELETE CONFIRM MODAL ================= -->
+<div id="deleteModal"
+     style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:9999; align-items:center; justify-content:center;">
+  <div style="background:#fff; padding:40px 36px; max-width:420px; width:90%; position:relative; text-align:center; animation: fadeUp 0.2s ease;">
+
+    <!-- ICON -->
+    <div style="width:64px; height:64px; background:#fff5f5; border:1px solid #f5c6cb; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 20px;">
+      <i class="fa fa-trash-alt fa-xl" style="color:#c0392b;"></i>
+    </div>
+
+    <h4 style="font-family:'Cormorant Garamond',serif; font-size:24px; font-weight:600; color:#1C1C1C; margin-bottom:10px;">
+      Remove Address?
+    </h4>
+    <p style="font-size:14px; color:#888; margin-bottom:28px; line-height:1.7;" id="deleteMsg">
+      Are you sure you want to remove this address? This action cannot be undone.
+    </p>
+
+    <div style="display:flex; gap:12px; justify-content:center;">
+      <button onclick="closeModal()"
+              style="flex:1; max-width:160px; background:transparent; border:1px solid #E8E2D5; color:#555; padding:12px 20px; font-size:12px; letter-spacing:1.5px; text-transform:uppercase; cursor:pointer; transition:all 0.2s;"
+              onmouseover="this.style.background='#FAF8F3'"
+              onmouseout="this.style.background='transparent'">
+        Cancel
+      </button>
+
+      <form id="deleteForm" method="POST" style="flex:1; max-width:160px;">
+        {% csrf_token %}
+        <button type="submit"
+                style="width:100%; background:#c0392b; color:#fff; border:none; padding:12px 20px; font-size:12px; letter-spacing:1.5px; text-transform:uppercase; cursor:pointer; transition:background 0.2s;"
+                onmouseover="this.style.background='#96281b'"
+                onmouseout="this.style.background='#c0392b'">
+          <i class="fa fa-trash-alt me-1"></i> Yes, Remove
+        </button>
+      </form>
+    </div>
+
+    <!-- CLOSE X -->
+    <button onclick="closeModal()"
+            style="position:absolute; top:14px; right:18px; background:none; border:none; font-size:18px; color:#aaa; cursor:pointer; line-height:1;"
+            onmouseover="this.style.color='#1C1C1C'"
+            onmouseout="this.style.color='#aaa'">
+      &times;
+    </button>
+  </div>
+</div>
+
 <style>
-/* Remove number input arrows for Chrome, Edge, Safari */
-input[type=number]::-webkit-outer-spin-button,
-input[type=number]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(16px); }
+  to   { opacity:1; transform:translateY(0); }
 }
 
-/* Remove number input arrows for Firefox */
-input[type=number] {
-    -moz-appearance: textfield;
+.address-card:hover {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
 }
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button { -webkit-appearance:none; margin:0; }
+input[type=number] { -moz-appearance:textfield; }
 </style>
+
+<script>
+  // Auto-hide flash message
+  setTimeout(function() {
+    let msg = document.getElementById("flashMsg");
+    if (msg) { msg.style.opacity='0'; msg.style.transition='opacity 0.5s'; setTimeout(()=>msg.remove(), 500); }
+  }, 3000);
+
+  // Open delete modal
+  function confirmDelete(id, name) {
+    document.getElementById('deleteMsg').textContent =
+      'Are you sure you want to remove the address for "' + name + '"? This cannot be undone.';
+    document.getElementById('deleteForm').action = '/delete-address/' + id + '/';
+    let modal = document.getElementById('deleteModal');
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+
+  // Close modal
+  function closeModal() {
+    document.getElementById('deleteModal').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  // Close modal on backdrop click
+  document.getElementById('deleteModal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+
+  // Close modal on Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+</script>
 
 {% endblock main-content %}

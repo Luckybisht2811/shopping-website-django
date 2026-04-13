@@ -35,6 +35,7 @@ urlpatterns = [
     path('buy-now/', views.buy_now, name='buy-now'),
     path('profile/', views.ProfileView.as_view(), name='profile'),
     path('address/', views.address, name='address'),
+    path('delete-address/<int:id>/', views.delete_address, name='delete_address'),
 
     # ================== CATEGORIES ==================
     path('necklace/', views.necklace, name='necklace'),

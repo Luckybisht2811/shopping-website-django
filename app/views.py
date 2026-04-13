@@ -304,6 +304,14 @@ class ProfileView(View):
             Customer.objects.create(user=request.user, **form.cleaned_data)
             messages.success(request, 'Profile Updated Successfully')
         return render(request, 'app/profile.html', {'form': form, 'active': 'btn-primary'})
+    
+@login_required
+def delete_address(request, id):
+    address = get_object_or_404(Customer, id=id, user=request.user)
+    if request.method == 'POST':
+        address.delete()
+        messages.success(request, 'Address removed successfully.')
+    return redirect('address')
 
 # ==================================================
 # PASSWORD CHANGE
