@@ -168,5 +168,58 @@ SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # "https://eneqd3r9zrjok.x.pipedream.net/"
 
+JAZZMIN_SETTINGS = {
+    "site_title": "Lucky Store Admin",
+    "site_header": "🛍️ Lucky Store Dashboard",
+    "site_brand": "Lucky Store", 
+    "copyright": "Lucky Store Admin ✨",
+    "custom_css": "app/css/custom-admin.css",    
+    # ✅ Ensure these are True
+    "show_sidebar": True,
+    "navigation_expanded": True,
+
+    # ✅ FIXED: Change True → False (or remove line entirely)
+    "user_avatar": False,  # Disable avatar to avoid error
+    
+    ############
+    # Top Menu #
+    ############
+    "topmenu_links": [
+        {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"name": "Orders", "url": "admin:app_orderplaced/"},
+        {"name": "Products", "url": "admin:app_product/"},
+    ],
+
+    #############
+    # Side Menu #
+    #############
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    
+    # ✅ Perfect icons for YOUR models
+    "icons": {
+        "app": "fas fa-store",
+        "app.Product": "fas fa-boxes",
+        "app.Customer": "fas fa-users",
+        "app.Cart": "fas fa-shopping-cart", 
+        "app.OrderPlaced": "fas fa-truck-loading",
+        "app.Order": "fas fa-file-invoice-dollar",
+        "auth": "fas fa-shield-alt",
+        "auth.User": "fas fa-user",
+    },
+
+    "default_icon_parents": "fas fa-folder",
+    "default_icon_children": "fas fa-circle",
+
+    #############
+    # UI Tweaks #
+    #############
+    "custom_css": None,
+    "custom_js": None,
+    "use_google_fonts_cdn": True,
+    
+    # Modern tabbed forms
+    "changeform_format": "horizontal_tabs",
+}
 
 
