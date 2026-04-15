@@ -159,13 +159,15 @@ class OrderPlacedModelAdmin(admin.ModelAdmin):
     def get_paid_badge(self, obj):
         if obj.is_paid:
             return format_html(
-                '<span style="background:#d4edda;color:#155724;padding:3px 10px;'
-                'border-radius:12px;font-size:12px;font-weight:600;">Paid</span>'
-            )
-        return format_html(
-            '<span style="background:#fff3cd;color:#856404;padding:3px 10px;'
-            'border-radius:12px;font-size:12px;font-weight:600;">Unpaid</span>'
+            '<span style="background:#d4edda;color:#155724;padding:3px 10px;'
+            'border-radius:12px;font-size:12px;font-weight:600;">{}</span>',
+            'Paid'  # 👈 Add this arg!
         )
+        return format_html(
+        '<span style="background:#fff3cd;color:#856404;padding:3px 10px;'
+        'border-radius:12px;font-size:12px;font-weight:600;">{}</span>',
+        'Unpaid'  # 👈 Add this arg!
+    )
     get_paid_badge.short_description = 'Payment'
 
     def get_status_badge(self, obj):
