@@ -1,19 +1,33 @@
-# Python
+# ===== Python =====
 __pycache__/
+*.py[cod]
+*.pyo
+*.pyd
 *.pyc
 
-# Virtual Environment
+# ===== Virtual Environment =====
 env/
 venv/
+.venv/
+ENV/
 
-# Django
-db.sqlite3
-media/
-staticfiles/
-
-# Environment variables
+# ===== Environment Variables (MOST IMPORTANT - never push this) =====
 .env
+.env.*
 
-# IDE
+# ===== Django =====
+*.sqlite3
+/staticfiles/
+
+# ===== Media files =====
+/media/
+
+# ===== OS files =====
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ===== VS Code / IDE =====
 .vscode/
 .idea/
+*.code-workspace
