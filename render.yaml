@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: lucky-store
+    runtime: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn shoppinglyx.wsgi:application"
+    envVars:
+      - key: DEBUG
+        value: False
