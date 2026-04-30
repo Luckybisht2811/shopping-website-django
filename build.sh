@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -o errexit
-
 pip install -r requirements.txt
 python manage.py collectstatic --no-input
 python manage.py migrate
+echo "CLOUDINARY_CLOUD_NAME: $CLOUDINARY_CLOUD_NAME"
+echo "Cloudinary configured!"
