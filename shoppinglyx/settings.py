@@ -1,8 +1,10 @@
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+import cloudinary
 
-load_dotenv() 
+if os.path.exists('.env'):
+    load_dotenv() 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -34,9 +36,9 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'cloudinary_storage',
     'django.contrib.staticfiles',
-    'cloudinary',                    
-    'cloudinary_storage',            
+    'cloudinary',                                
     'app',
 ]
 
@@ -124,15 +126,11 @@ USE_TZ = True
 
 
 STATIC_URL = '/static/'
-
-STATICFILES_DIRS = [
-    BASE_DIR / "app" / "static",
-]
-
-
+STATICFILES_DIRS = [BASE_DIR / "app" / "static",]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
 # Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
@@ -144,7 +142,12 @@ CLOUDINARY_STORAGE = {
     'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
     'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
 }
-
+cloudinary.config(
+    cloud_name=os.environ.get('CLOUDINARY_CLOUD_NAME'),
+    api_key=os.environ.get('CLOUDINARY_API_KEY'),
+    api_secret=os.environ.get('CLOUDINARY_API_SECRET'),
+    secure=True
+)
 
 # Login / Logout redirects
 LOGIN_URL = '/accounts/login/'
@@ -152,9 +155,6 @@ LOGIN_REDIRECT_URL = '/profile/'
 LOGOUT_REDIRECT_URL = '/accounts/login/'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-# from decouple import config
-# RAZORPAY_KEY_ID =config("RAZORPAY_KEY_ID")
-# RAZORPAY_KEY_SECRET =config("RAZORPAY_KEY_SECRET")
 
 RAZORPAY_KEY_ID = os.environ.get("RAZORPAY_KEY_ID", "")
 RAZORPAY_KEY_SECRET = os.environ.get("RAZORPAY_KEY_SECRET", "")
