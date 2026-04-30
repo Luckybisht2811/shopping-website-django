@@ -21,6 +21,7 @@ ENV/
 
 # ===== Media files =====
 /media/
+echo media/
 
 # ===== OS files =====
 .DS_Store
