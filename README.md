@@ -2,7 +2,7 @@
 
 **A modern online shopping platform with Razorpay payment integration.**  
 
-🔗 **Live Demo:** [Visit Lucky-Store](https://lucky-store-kgh4.onrender.com)
+🔗 **Live Demo:** [Visit Lucky-Store](https://lucky-store28.onrender.com/)
 
 ---
 
