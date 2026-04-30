@@ -56,7 +56,7 @@ class ProductModelAdmin(admin.ModelAdmin):
             return format_html(
                 '<img src="{}" width="48" height="48" '
                 'style="object-fit:cover; border-radius:4px;" />',
-                obj.product_image.url
+                obj.product_image
             )
         return format_html('<span class="no-image">-</span>')  # Safe HTML dash
     product_thumbnail.short_description = 'Image'
@@ -67,7 +67,7 @@ class ProductModelAdmin(admin.ModelAdmin):
         if obj.product_image:
             return format_html(
                 '<img src="{}" style="max-height:200px; max-width:200px; object-fit:contain;" />',
-                obj.product_image.url
+                obj.product_image
             )
         return '-'
     product_preview.short_description = 'Preview'
