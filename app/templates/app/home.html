@@ -53,7 +53,7 @@
     {% for b in bottomwears %}
     <div class="item text-center">
       <div class="card shadow-sm" style="width:240px; margin:auto;">
-        <img src="{{ b.product_image.url }}" class="card-img-top" style="height:280px; object-fit:contain;" alt="{{ b.title }}">
+        <img src="{{ b.product_image }}" class="card-img-top" style="height:280px; object-fit:contain;" alt="{{ b.title }}">
         <div class="card-body p-2">
           <h6 class="card-title fw-bold">{{ b.title }}</h6>
           <p class="card-text fs-6">Rs. {{ b.discounted_price }}</p>
@@ -74,7 +74,7 @@
     {% for n in necklace %}
     <div class="item text-center">
       <div class="card shadow-sm" style="width:240px; margin:auto;">
-        <img src="{{ n.product_image.url }}" class="card-img-top" style="height:280px; object-fit:contain;" alt="{{ n.title }}">
+        <img src="{{ n.product_image }}" class="card-img-top" style="height:280px; object-fit:contain;" alt="{{ n.title }}">
         <div class="card-body p-2">
           <h6 class="card-title fw-bold">{{ n.title }}</h6>
           <p class="card-text fs-6">Rs. {{ n.discounted_price }}</p>
@@ -95,7 +95,7 @@
     {% for e in earrings %}
     <div class="item text-center">
       <div class="card shadow-sm" style="width:240px; margin:auto;">
-        <img src="{{ e.product_image.url }}" class="card-img-top" style="height:280px; object-fit:contain;" alt="{{ e.title }}">
+        <img src="{{ e.product_image }}" class="card-img-top" style="height:280px; object-fit:contain;" alt="{{ e.title }}">
         <div class="card-body p-2">
           <h6 class="card-title fw-bold">{{ e.title }}</h6>
           <p class="card-text fs-6">Rs. {{ e.discounted_price }}</p>
@@ -116,7 +116,7 @@
     {% for tp in topwears %}
     <div class="item text-center">
       <div class="card shadow-sm" style="width:240px; margin:auto;">
-        <img src="{{ tp.product_image.url }}" class="card-img-top" style="height:280px; object-fit:contain;" alt="{{ tp.title }}">
+        <img src="{{ tp.product_image}}" class="card-img-top" style="height:280px; object-fit:contain;" alt="{{ tp.title }}">
         <div class="card-body p-2">
           <h6 class="card-title fw-bold">{{ tp.title }}</h6>
           <p class="card-text fs-6">Rs. {{ tp.discounted_price }}</p>
