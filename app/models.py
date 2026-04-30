@@ -84,7 +84,7 @@ class Product(models.Model):
     description = models.TextField()
     brand = models.CharField(max_length=100)
     category = models.CharField(choices=CATEGORY_CHOICES, max_length=2)
-    product_image = models.ImageField(upload_to='producting')
+    product_image = models.URLField(max_length=500)  # ← CHANGED
 
     def __str__(self):
         return self.title if self.title else "-"
