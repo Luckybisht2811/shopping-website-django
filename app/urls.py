@@ -9,6 +9,9 @@ from .forms import LoginForm, MyPasswordChangeForm, MyPasswordResetForm, MySetPa
 
 urlpatterns = [
 
+    # =======================AI Agent=================
+    path('ai-chat/', views.ai_chat, name='ai_chat'),
+
     # ================== HOME / PRODUCT ==================
     path('', views.ProductView.as_view(), name='home'),
     path('product-detail/<int:pk>/', views.ProductDetailsView.as_view(), name='product-detail'),

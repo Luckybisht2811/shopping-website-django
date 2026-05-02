@@ -15,6 +15,63 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 import razorpay
 from .models import Product, Order
 
+
+from groq import Groq
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+import os
+
+groq_client = Groq(api_key=os.environ.get('GROQ_API_KEY'))
+
+@csrf_exempt
+def ai_chat(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            user_message = data.get('message', '').strip()
+
+            if not user_message:
+                return JsonResponse({'error': 'Empty message'}, status=400)
+
+            response = groq_client.chat.completions.create(
+                model='llama-3.1-8b-instant',  # free and fast
+                messages=[
+                    {
+                        'role': 'system',
+                        'content': '''You are Lucky, a friendly fashion assistant 
+for Lucky Store — an Indian online shopping store selling:
+- Jewellery: Gold & Silver Necklaces, Gold & Silver Ear Rings
+- Fashion: Top Wear (Black & White T-shirts under Rs.500), Bottom Wear (Black & Blue Jeans under Rs.600)
+
+Help customers with outfit advice, colour suggestions, jewellery pairings, 
+size guidance, seasonal fashion, and Indian occasion wear (Diwali, Holi, office, casual).
+Keep responses friendly, concise (2-4 sentences), and always relate back to Lucky Store products.
+End with a follow-up question to keep conversation going.'''
+                    },
+                    {
+                        'role': 'user',
+                        'content': user_message
+                    }
+                ],
+                max_tokens=300,
+                temperature=0.7,
+            )
+
+            reply = response.choices[0].message.content
+            return JsonResponse({'response': reply})
+
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)
+        except Exception as e:
+            print(f"Groq error: {e}")
+            return JsonResponse({'error': str(e)}, status=500)
+
+    return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+
+
+
 client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
 # ==================================================
 # HOME PAGE

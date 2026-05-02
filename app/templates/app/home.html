@@ -146,4 +146,358 @@
   </div>
 </div>
 
+<!-- ================= AI CHAT BUBBLE ================= -->
+
+<!-- Bubble toggle button -->
+<div id="ai-chat-bubble" onclick="toggleChat()"
+     style="position:fixed; bottom:30px; right:30px; width:60px; height:60px;
+            background:linear-gradient(135deg, #C9A84C, #a8872e);
+            border-radius:50%; cursor:pointer; z-index:9999;
+            display:flex; align-items:center; justify-content:center;
+            box-shadow:0 4px 20px rgba(201,168,76,0.5);
+            animation:pulse-gold 2s infinite; transition:transform 0.2s;"
+     onmouseover="this.style.transform='scale(1.1)'"
+     onmouseout="this.style.transform='scale(1)'">
+    <span id="bubble-icon" style="font-size:26px;">🤖</span>
+</div>
+
+<!-- Chat window -->
+<div id="ai-chat-window"
+     style="position:fixed; bottom:100px; right:30px; width:350px; height:500px;
+            background:#fff; border-radius:16px; z-index:9998;
+            box-shadow:0 10px 40px rgba(0,0,0,0.2);
+            display:none; flex-direction:column; overflow:hidden;
+            border:1px solid rgba(201,168,76,0.3);
+            animation:fadeUp 0.3s ease;">
+
+    <!-- Header -->
+    <div style="background:linear-gradient(135deg, #1C1C1C, #2e2e2e);
+                padding:14px 18px; color:white; display:flex;
+                align-items:center; justify-content:space-between;
+                border-bottom:2px solid #C9A84C;">
+        <div style="display:flex; align-items:center; gap:10px;">
+            <div style="width:36px; height:36px; background:rgba(201,168,76,0.2);
+                        border:1px solid rgba(201,168,76,0.4); border-radius:50%;
+                        display:flex; align-items:center; justify-content:center; font-size:18px;">
+                🤖
+            </div>
+            <div>
+                <p style="margin:0; font-size:14px; font-weight:600; letter-spacing:0.5px;">Lucky AI Assistant</p>
+                <p style="margin:0; font-size:11px; color:rgba(201,168,76,0.8); letter-spacing:1px;">Fashion & Style Expert</p>
+            </div>
+        </div>
+
+        <!-- Action buttons -->
+        <div style="display:flex; align-items:center; gap:8px;">
+            <!-- Clear chat -->
+            <button onclick="clearChat()" title="Clear chat"
+                    style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.15);
+                           color:rgba(255,255,255,0.6); width:28px; height:28px; border-radius:50%;
+                           cursor:pointer; font-size:12px; display:flex; align-items:center;
+                           justify-content:center; transition:all 0.2s;"
+                    onmouseover="this.style.background='rgba(201,168,76,0.3)'; this.style.color='#C9A84C';"
+                    onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.color='rgba(255,255,255,0.6)';">
+                <i class="fa fa-rotate-right" style="font-size:11px;"></i>
+            </button>
+            <!-- Minimize -->
+            <button onclick="minimizeChat()" title="Minimize"
+                    style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.15);
+                           color:rgba(255,255,255,0.6); width:28px; height:28px; border-radius:50%;
+                           cursor:pointer; font-size:12px; display:flex; align-items:center;
+                           justify-content:center; transition:all 0.2s;"
+                    onmouseover="this.style.background='rgba(201,168,76,0.3)'; this.style.color='#C9A84C';"
+                    onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.color='rgba(255,255,255,0.6)';">
+                <i class="fa fa-minus" style="font-size:11px;"></i>
+            </button>
+            <!-- Close -->
+            <button onclick="closeChat()" title="Close"
+                    style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.15);
+                           color:rgba(255,255,255,0.6); width:28px; height:28px; border-radius:50%;
+                           cursor:pointer; font-size:12px; display:flex; align-items:center;
+                           justify-content:center; transition:all 0.2s;"
+                    onmouseover="this.style.background='rgba(220,53,69,0.4)'; this.style.color='#ff6b6b';"
+                    onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.color='rgba(255,255,255,0.6)';">
+                <i class="fa fa-xmark" style="font-size:13px;"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Messages -->
+    <div id="chat-messages"
+         style="flex:1; overflow-y:auto; padding:16px; background:#FAF8F3;
+                scroll-behavior:smooth;">
+
+        <!-- Welcome message -->
+        <div class="ai-msg" style="display:flex; gap:8px; margin-bottom:12px;">
+            <div style="width:28px; height:28px; background:#1C1C1C; border-radius:50%;
+                        display:flex; align-items:center; justify-content:center;
+                        font-size:14px; flex-shrink:0; margin-top:2px;">🤖</div>
+            <div style="background:white; border:1px solid #E8E2D5; color:#1C1C1C;
+                        padding:10px 14px; border-radius:4px 16px 16px 16px;
+                        max-width:85%; font-size:13px; line-height:1.6;
+                        box-shadow:0 1px 4px rgba(0,0,0,0.06);">
+                Hi! 👋 I'm <strong>Lucky</strong>, your personal fashion assistant.<br><br>
+                I can help you with:<br>
+                ✨ Colors for your skin tone<br>
+                👗 Outfit recommendations<br>
+                💍 Jewellery pairings<br>
+                📏 Size & fit advice
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick suggestions -->
+    <div id="quick-suggestions"
+         style="padding:8px 12px; background:#fff; border-top:1px solid #E8E2D5;
+                display:flex; gap:6px; flex-wrap:wrap;">
+        <button onclick="quickAsk('What colors suit wheatish skin tone?')"
+                style="background:#FAF8F3; border:1px solid #E8E2D5; color:#555;
+                       padding:4px 10px; border-radius:20px; font-size:11px;
+                       cursor:pointer; transition:all 0.2s; white-space:nowrap;"
+                onmouseover="this.style.borderColor='#C9A84C'; this.style.color='#C9A84C';"
+                onmouseout="this.style.borderColor='#E8E2D5'; this.style.color='#555';">
+            Skin tone colors
+        </button>
+        <button onclick="quickAsk('Best outfit for Diwali?')"
+                style="background:#FAF8F3; border:1px solid #E8E2D5; color:#555;
+                       padding:4px 10px; border-radius:20px; font-size:11px;
+                       cursor:pointer; transition:all 0.2s; white-space:nowrap;"
+                onmouseover="this.style.borderColor='#C9A84C'; this.style.color='#C9A84C';"
+                onmouseout="this.style.borderColor='#E8E2D5'; this.style.color='#555';">
+            Diwali outfit
+        </button>
+        <button onclick="quickAsk('Office wear suggestions?')"
+                style="background:#FAF8F3; border:1px solid #E8E2D5; color:#555;
+                       padding:4px 10px; border-radius:20px; font-size:11px;
+                       cursor:pointer; transition:all 0.2s; white-space:nowrap;"
+                onmouseover="this.style.borderColor='#C9A84C'; this.style.color='#C9A84C';"
+                onmouseout="this.style.borderColor='#E8E2D5'; this.style.color='#555';">
+            Office wear
+        </button>
+    </div>
+
+    <!-- Input -->
+    <div style="padding:12px; border-top:1px solid #E8E2D5; background:white;">
+        <div style="display:flex; gap:8px; align-items:center;">
+            <input type="text" id="chat-input"
+                   placeholder="Ask about fashion & style..."
+                   style="flex:1; padding:10px 14px; border:1.5px solid #E8E2D5;
+                          border-radius:25px; outline:none; font-size:13px;
+                          transition:border-color 0.2s; background:#FAF8F3;"
+                   onfocus="this.style.borderColor='#C9A84C'"
+                   onblur="this.style.borderColor='#E8E2D5'"
+                   onkeypress="handleKeyPress(event)">
+            <button onclick="sendMessage()"
+                    style="background:#C9A84C; color:#1C1C1C; border:none;
+                           width:42px; height:42px; border-radius:50%; cursor:pointer;
+                           font-size:16px; font-weight:bold; transition:background 0.2s;
+                           display:flex; align-items:center; justify-content:center;
+                           flex-shrink:0;"
+                    onmouseover="this.style.background='#a8872e'"
+                    onmouseout="this.style.background='#C9A84C'">
+                <i class="fa fa-paper-plane" style="font-size:13px;"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Minimized bar -->
+<div id="ai-chat-minimized"
+     style="position:fixed; bottom:100px; right:30px; width:220px;
+            background:#1C1C1C; border-radius:30px; z-index:9998;
+            box-shadow:0 4px 20px rgba(0,0,0,0.3); display:none;
+            align-items:center; justify-content:space-between;
+            padding:10px 16px; border:1px solid rgba(201,168,76,0.3);">
+    <div style="display:flex; align-items:center; gap:8px; cursor:pointer;"
+         onclick="restoreChat()">
+        <span style="font-size:16px;">🤖</span>
+        <span style="color:#C9A84C; font-size:12px; font-weight:600; letter-spacing:0.5px;">Lucky AI</span>
+    </div>
+    <button onclick="closeChat()"
+            style="background:none; border:none; color:rgba(255,255,255,0.4);
+                   cursor:pointer; font-size:14px; padding:0;"
+            onmouseover="this.style.color='#ff6b6b'"
+            onmouseout="this.style.color='rgba(255,255,255,0.4)'">
+        <i class="fa fa-xmark"></i>
+    </button>
+</div>
+
+{% csrf_token %}
+
+<style>
+@keyframes pulse-gold {
+    0%   { box-shadow: 0 0 0 0 rgba(201,168,76,0.5); }
+    70%  { box-shadow: 0 0 0 14px rgba(201,168,76,0); }
+    100% { box-shadow: 0 0 0 0 rgba(201,168,76,0); }
+}
+@keyframes fadeUp {
+    from { opacity:0; transform:translateY(16px); }
+    to   { opacity:1; transform:translateY(0); }
+}
+#chat-messages::-webkit-scrollbar { width:4px; }
+#chat-messages::-webkit-scrollbar-track { background:#FAF8F3; }
+#chat-messages::-webkit-scrollbar-thumb { background:#E8E2D5; border-radius:4px; }
+#chat-messages::-webkit-scrollbar-thumb:hover { background:#C9A84C; }
+</style>
+
+<script>
+const chatWindow    = document.getElementById('ai-chat-window');
+const chatMinimized = document.getElementById('ai-chat-minimized');
+const chatBubble    = document.getElementById('ai-chat-bubble');
+const bubbleIcon    = document.getElementById('bubble-icon');
+
+// ── Toggle open/close ──
+function toggleChat() {
+    if (chatWindow.style.display === 'flex') {
+        closeChat();
+    } else {
+        openChat();
+    }
+}
+
+function openChat() {
+    chatWindow.style.display    = 'flex';
+    chatMinimized.style.display = 'none';
+    bubbleIcon.textContent      = '✕';
+    chatBubble.style.background = 'linear-gradient(135deg, #a8872e, #7d6320)';
+    document.getElementById('chat-input').focus();
+}
+
+function closeChat() {
+    chatWindow.style.display    = 'none';
+    chatMinimized.style.display = 'none';
+    bubbleIcon.textContent      = '🤖';
+    chatBubble.style.background = 'linear-gradient(135deg, #C9A84C, #a8872e)';
+}
+
+function minimizeChat() {
+    chatWindow.style.display    = 'none';
+    chatMinimized.style.display = 'flex';
+    bubbleIcon.textContent      = '🤖';
+    chatBubble.style.background = 'linear-gradient(135deg, #C9A84C, #a8872e)';
+}
+
+function restoreChat() {
+    openChat();
+}
+
+function clearChat() {
+    const messages = document.getElementById('chat-messages');
+    messages.innerHTML = `
+        <div class="ai-msg" style="display:flex; gap:8px; margin-bottom:12px;">
+            <div style="width:28px; height:28px; background:#1C1C1C; border-radius:50%;
+                        display:flex; align-items:center; justify-content:center;
+                        font-size:14px; flex-shrink:0; margin-top:2px;">🤖</div>
+            <div style="background:white; border:1px solid #E8E2D5; color:#1C1C1C;
+                        padding:10px 14px; border-radius:4px 16px 16px 16px;
+                        max-width:85%; font-size:13px; line-height:1.6;
+                        box-shadow:0 1px 4px rgba(0,0,0,0.06);">
+                Chat cleared! How can I help you? 😊
+            </div>
+        </div>`;
+}
+
+// ── Quick suggestion buttons ──
+function quickAsk(question) {
+    document.getElementById('chat-input').value = question;
+    sendMessage();
+    // hide suggestions after first use
+    document.getElementById('quick-suggestions').style.display = 'none';
+}
+
+function handleKeyPress(event) {
+    if (event.key === 'Enter') sendMessage();
+}
+
+// ── Send message ──
+async function sendMessage() {
+    const input    = document.getElementById('chat-input');
+    const messages = document.getElementById('chat-messages');
+    const userMsg  = input.value.trim();
+    if (!userMsg) return;
+
+    // Hide quick suggestions
+    document.getElementById('quick-suggestions').style.display = 'none';
+
+    // User bubble
+    messages.innerHTML += `
+        <div style="display:flex; justify-content:flex-end; margin-bottom:12px;">
+            <div style="background:#1C1C1C; color:white; padding:10px 14px;
+                        border-radius:16px 4px 16px 16px; max-width:85%;
+                        font-size:13px; line-height:1.6;">
+                ${userMsg}
+            </div>
+        </div>`;
+    input.value = '';
+    messages.scrollTop = messages.scrollHeight;
+
+    // Typing indicator
+    const typingId = 'typing-' + Date.now();
+    messages.innerHTML += `
+        <div id="${typingId}" style="display:flex; gap:8px; margin-bottom:12px;">
+            <div style="width:28px; height:28px; background:#1C1C1C; border-radius:50%;
+                        display:flex; align-items:center; justify-content:center;
+                        font-size:14px; flex-shrink:0;">🤖</div>
+            <div style="background:white; border:1px solid #E8E2D5; padding:12px 16px;
+                        border-radius:4px 16px 16px 16px; font-size:13px; color:#888;">
+                <span style="display:inline-flex; gap:4px;">
+                    <span style="animation:blink 1s infinite 0s;">●</span>
+                    <span style="animation:blink 1s infinite 0.2s;">●</span>
+                    <span style="animation:blink 1s infinite 0.4s;">●</span>
+                </span>
+            </div>
+        </div>`;
+    messages.scrollTop = messages.scrollHeight;
+
+    try {
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        const response  = await fetch('/ai-chat/', {
+            method:  'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken':  csrfToken
+            },
+            body: JSON.stringify({ message: userMsg })
+        });
+
+        const data = await response.json();
+        document.getElementById(typingId).remove();
+
+        messages.innerHTML += `
+            <div style="display:flex; gap:8px; margin-bottom:12px;">
+                <div style="width:28px; height:28px; background:#1C1C1C; border-radius:50%;
+                            display:flex; align-items:center; justify-content:center;
+                            font-size:14px; flex-shrink:0; margin-top:2px;">🤖</div>
+                <div style="background:white; border:1px solid #E8E2D5; color:#1C1C1C;
+                            padding:10px 14px; border-radius:4px 16px 16px 16px;
+                            max-width:85%; font-size:13px; line-height:1.6;
+                            box-shadow:0 1px 4px rgba(0,0,0,0.06);">
+                    ${data.response.replace(/\n/g, '<br>')}
+                </div>
+            </div>`;
+        messages.scrollTop = messages.scrollHeight;
+
+    } catch(error) {
+        document.getElementById(typingId).remove();
+        messages.innerHTML += `
+            <div style="background:#fff5f5; border:1px solid #f5c6cb; color:#721c24;
+                        padding:10px 14px; border-radius:12px; margin-bottom:12px;
+                        font-size:13px;">
+                Sorry, something went wrong. Please try again!
+            </div>`;
+    }
+}
+
+// Close chat when pressing Escape
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeChat();
+});
+</script>
+
+<style>
+@keyframes blink {
+    0%, 100% { opacity: 0.2; }
+    50%       { opacity: 1; }
+}
+</style>
 {% endblock main-content %}
